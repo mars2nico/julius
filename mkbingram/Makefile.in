@@ -37,12 +37,12 @@ clean:
 	$(RM) $(OBJ)
 	$(RM) *~ core
 	$(RM) config.log config.cache
-	$(RM) $(TARGET) $(TARGET).exe
+	$(RM) $(TARGET) $(TARGET).exe $(TARGET).wasm
 
 distclean:
 	$(RM) $(OBJ)
 	$(RM) *~ core
 	$(RM) config.log config.cache
 	$(RM) config.status
-	$(RM) $(TARGET) $(TARGET).exe
+	$(RM) $(TARGET) $(TARGET).exe $(TARGET).wasm
 	$(RM) config.h Makefile

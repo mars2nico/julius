@@ -5735,6 +5735,16 @@ fi
 #	AC_DEFINE(USE_MIC)
 #	SOUNDLIB="-L/usr/opt/MME242/lib -lmme")
 #	;;
+    openal)
+	aldesc="OpenAL audio interface"
+	ADINOBJ="$ADINOBJ src/adin/adin_mic_openal.o"
+	$as_echo "#define USE_MIC 1" >>confdefs.h
+
+  $as_echo "#define HAS_OPENAL 1" >>confdefs.h
+
+	SOUNDLIB="$SOUNDLIB -lopenal"
+  adinlist="$adinlist openal"
+	 ;;
     *)
 	aldesc="no support"
 	as_fn_error $? "mictype not supported, or specified type not exist" "$LINENO" 5

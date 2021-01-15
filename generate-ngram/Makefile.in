@@ -38,9 +38,9 @@ install.bin: $(TARGET)
 
 clean:
 	$(RM) $(OBJ) *~ core
-	$(RM) $(TARGET) $(TARGET).exe
+	$(RM) $(TARGET) $(TARGET).exe $(TARGET).wasm
 
 distclean:
 	$(RM) $(OBJ) *~ core
-	$(RM) $(TARGET) $(TARGET).exe
+	$(RM) $(TARGET) $(TARGET).exe $(TARGET).wasm
 	$(RM) Makefile

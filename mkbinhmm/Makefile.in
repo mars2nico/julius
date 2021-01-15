@@ -38,12 +38,12 @@ install.bin: mkbinhmm@EXEEXT@ mkbinhmmlist@EXEEXT@
 clean:
 	$(RM) mkbinhmm.o mkbinhmmlist.o
 	$(RM) *~ core
-	$(RM) mkbinhmm mkbinhmm.exe
-	$(RM) mkbinhmmlist mkbinhmmlist.exe
+	$(RM) mkbinhmm mkbinhmm.exe mkbinhmm.wasm
+	$(RM) mkbinhmmlist mkbinhmmlist.exe mkbinhmmlist.wasm
 
 distclean:
 	$(RM) mkbinhmm.o mkbinhmmlist.o
 	$(RM) *~ core
-	$(RM) mkbinhmm mkbinhmm.exe
-	$(RM) mkbinhmmlist mkbinhmmlist.exe
+	$(RM) mkbinhmm mkbinhmm.exe mkbinhmm.wasm
+	$(RM) mkbinhmmlist mkbinhmmlist.exe mkbinhmmlist.wasm
 	$(RM) Makefile

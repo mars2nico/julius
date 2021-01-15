@@ -77,6 +77,7 @@ clean:
 	$(RM) config.log config.cache
 	$(RM) $(TARGET) $(INSTALLTARGET)
 	$(RM) $(TARGET).exe $(INSTALLTARGET).exe
+	$(RM) $(TARGET).wasm $(INSTALLTARGET).wasm
 
 distclean:
 #	$(RM) *.o *.bak *~ core TAGS
@@ -85,6 +86,7 @@ distclean:
 	$(RM) config.log config.cache
 	$(RM) $(TARGET) $(INSTALLTARGET)
 	$(RM) $(TARGET).exe $(INSTALLTARGET).exe
+	$(RM) $(TARGET).wasm $(INSTALLTARGET).wasm
 	$(RM) config.status config.h
 	$(RM) Makefile
 

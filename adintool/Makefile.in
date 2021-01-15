@@ -53,12 +53,12 @@ clean:
 	$(RM) $(OBJ) $(GUIOBJ)
 	$(RM) config.log config.cache
 	$(RM) *~ core
-	$(RM) adintool adintool@EXEEXT@ adintool-gui adintool-gui@EXEEXT@
+	$(RM) adintool adintool@EXEEXT@ adintool.wasm adintool-gui adintool-gui@EXEEXT@
 
 distclean:
 	$(RM) $(OBJ) $(GUIOBJ)
 	$(RM) config.log config.cache
 	$(RM) *~ core
-	$(RM) adintool adintool@EXEEXT@ adintool-gui adintool-gui@EXEEXT@
+	$(RM) adintool adintool@EXEEXT@ adintool.wasm adintool-gui adintool-gui@EXEEXT@
 	$(RM) config.status
 	$(RM) Makefile

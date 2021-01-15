@@ -48,11 +48,11 @@ install.bin:
 
 clean:
 	$(RM) *.o *~ core
-	$(RM) $(TARGET) $(TARGET).exe
+	$(RM) $(TARGET) $(TARGET).exe $(TARGET).wasm
 
 distclean:
 	$(RM) *.o *~ core
-	$(RM) $(TARGET) $(TARGET).exe
+	$(RM) $(TARGET) $(TARGET).exe $(TARGET).wasm
 	$(RM) Makefile
 
 # dependencies

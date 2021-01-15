@@ -731,6 +731,14 @@ case $altype in
 #	AC_DEFINE(USE_MIC)
 #	SOUNDLIB="-L/usr/opt/MME242/lib -lmme")
 #	;;
+    openal)
+	aldesc="OpenAL audio interface"
+	ADINOBJ="$ADINOBJ src/adin/adin_mic_openal.o"
+	AC_DEFINE(USE_MIC)
+  AC_DEFINE(HAS_OPENAL)
+	SOUNDLIB="$SOUNDLIB -lopenal"
+  adinlist="$adinlist openal"
+	 ;;
     *)
 	aldesc="no support"
 	AC_MSG_ERROR([mictype not supported, or specified type not exist])
