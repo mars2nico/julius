@@ -110,6 +110,16 @@
 #include <pthread.h>
 #endif
 
+#ifdef __EMSCRIPTEN__
+EM_JS(void, wait_animation_frame, (), {
+  Asyncify.handleSleep(wakeup => {
+    requestAnimationFrame(() => {
+      wakeup();
+    });
+  });
+});
+#endif
+
 #ifdef HAVE_LIBFVAD
 #include "../libfvad/libfvad/include/fvad.h"
 #endif /* HAVE_LIBFVAD */
@@ -441,6 +451,9 @@ adin_cut(int (*ad_process)(SP16 *, int, Recog *), int (*ad_check)(Recog *), Reco
   /* main loop */
   /*************/
   for (;;) {
+#ifdef __EMSCRIPTEN__
+    wait_animation_frame();
+#endif
 
     /* check end of input by end of stream */
     if (a->end_of_stream && a->bp == 0) break;
