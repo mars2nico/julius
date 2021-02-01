@@ -28,6 +28,17 @@
 #include <sent/stddefs.h>
 #include <sent/adin.h>
 
+#include <AL/al.h>
+#include <AL/alc.h>
+
+#define MINSAMPLES 3000 /// TODO: add comment
+#define MAXPOLLINTERVAL 300	///< Read timeout in msec.
+
+static ALCdevice *mic = NULL;
+static ALCuint srate;		        ///< Required sampling rate
+static ALCuint latency = 1024;	///< Lantency time in msec
+static boolean need_swap;	      ///< Whether samples need byte swap
+
 /** 
  * Device initialization: check device capability and open for recording.
  * 
@@ -39,12 +50,9 @@
 boolean
 adin_mic_standby(int sfreq, void *dummy)
 {
-#if defined(HAS_OPENAL)
-  return FALSE;
-#else  /* otherwise */
-  jlog("OpenAL feature is not available\n");
-  return FALSE;
-#endif
+  srate = sfreq;
+  need_swap = FALSE;
+  return TRUE;
 }
 
 /** 
@@ -57,12 +65,14 @@ adin_mic_standby(int sfreq, void *dummy)
 boolean
 adin_mic_begin(char *pathname)
 {
-#if defined(HAS_OPENAL)
-  return FALSE;
-#else  /* otherwise */
-  jlog("OpenAL feature is not available\n");
-  return FALSE;
-#endif
+  ALCsizei buffersize = srate * latency / 1000;
+  mic = alcCaptureOpenDevice(NULL, srate, AL_FORMAT_MONO16, buffersize);
+  if( !mic ){
+    fprintf(stderr, "Failed to open a device\n");
+    return FALSE;
+  }
+  alcCaptureStart(mic);
+  return TRUE;
 }
 
 /** 
@@ -73,12 +83,12 @@ adin_mic_begin(char *pathname)
 boolean
 adin_mic_end()
 {
-#if defined(HAS_OPENAL)
-  return FALSE;
-#else  /* otherwise */
-  jlog("OpenAL feature is not available\n");
-  return FALSE;
-#endif
+  alcCaptureStop(mic);
+  if( alcCloseDevice(mic) == ALC_FALSE ){
+    return FALSE;
+  }
+  mic = NULL;
+  return TRUE;
 }
 
 /**
@@ -96,12 +106,22 @@ adin_mic_end()
 int
 adin_mic_read(SP16 *buf, int sampnum)
 {
-#if defined(HAS_OPENAL)
-  return FALSE;
-#else  /* otherwise */
-  jlog("OpenAL feature is not available\n");
-  return -2;
-#endif
+  ALint sample = -1;
+  while( sample < MINSAMPLES ){
+    if( 0 <= sample ) emscripten_sleep(MAXPOLLINTERVAL);
+    sample = -1;
+    alcGetIntegerv(mic, ALC_CAPTURE_SAMPLES, sizeof(sample), &sample);
+    if( sample < 0 || sampnum < sample ){
+      fprintf(stderr, "Error: adin_openal: failed to read buffer (%d:%d)\n", sample, sampnum);
+      return(-2);
+    }
+  }
+  alcCaptureSamples(mic, (ALCvoid*)buf, (ALCsizei)sample);
+  if (need_swap) {
+    swap_sample_bytes(buf, sample);
+  }
+
+  return sample;
 }
 
 /** 
@@ -146,9 +166,5 @@ adin_mic_resume()
 char *
 adin_mic_input_name()
 {
-#if defined(HAS_OPENAL)
-  return FALSE;
-#else  /* otherwise */
-  return("Error: OpenAL feature is not available\n");
-#endif
+  return("Error: not implemented\n");
 }

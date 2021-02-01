@@ -735,7 +735,6 @@ case $altype in
 	aldesc="OpenAL audio interface"
 	ADINOBJ="$ADINOBJ src/adin/adin_mic_openal.o"
 	AC_DEFINE(USE_MIC)
-  AC_DEFINE(HAS_OPENAL)
 	SOUNDLIB="$SOUNDLIB -lopenal"
   adinlist="$adinlist openal"
 	 ;;

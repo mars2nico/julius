@@ -92,6 +92,10 @@
 
 #include <sent/machines.h>
 
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#endif
+
 /// Static PI value
 #if !defined(PI)
 #define PI 3.14159265358979

@@ -5740,8 +5740,6 @@ fi
 	ADINOBJ="$ADINOBJ src/adin/adin_mic_openal.o"
 	$as_echo "#define USE_MIC 1" >>confdefs.h
 
-  $as_echo "#define HAS_OPENAL 1" >>confdefs.h
-
 	SOUNDLIB="$SOUNDLIB -lopenal"
   adinlist="$adinlist openal"
 	 ;;
