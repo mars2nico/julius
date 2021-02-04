@@ -546,7 +546,7 @@ adin_cut(int (*ad_process)(SP16 *, int, Recog *), int (*ad_check)(Recog *), Reco
       /* some speech processing for the incoming input */
       /*************************************************/
       if (cnt > 0) {
-	if (a->strip_flag) {
+	if (a->strip_flag && !a->is_valid_data) {
 	  /* strip off successive zero samples */
 	  len = strip_zero(&(a->buffer[a->bp]), cnt);
 	  if (len != cnt) cnt = len;
