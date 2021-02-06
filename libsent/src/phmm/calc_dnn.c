@@ -31,6 +31,8 @@
 #endif /* _OPENMP */
 #endif
 
+#define TMP_FIX_210206
+
 static int use_simd = USE_SIMD_NONE;
 
 /************************************************************************/
@@ -70,6 +72,9 @@ static void cpu_id_check()
     fma = TRUE;
   }
 #else  /* ~_WIN32 */
+#ifdef EMSCRIPTEN
+  use_simd = USE_SIMD_SSE;
+#else
   unsigned int eax, ebx, ecx, edx;
 
   if (__get_cpuid(1, &eax, &ebx, &ecx, &edx) == 0)
@@ -83,6 +88,7 @@ static void cpu_id_check()
   if (ecx & bit_FMA) {
     fma = TRUE;
   }
+#endif  /* EMSCRIPTEN */
 #endif	/* _WIN32 */
 
 #ifdef HAS_SIMD_FMA
@@ -122,7 +128,11 @@ static void *mymalloc_simd_aligned(size_t size)
   case USE_SIMD_SSE:
   case USE_SIMD_NEON:
   case USE_SIMD_NEONV2:
+#ifdef TMP_FIX_210206
+    ptr = mymalloc_aligned(size+15-((size-1)%16), 16);
+#else
     ptr = mymalloc_aligned(size, 16);
+#endif
     break;
   default:
     ptr = mymalloc(size);
